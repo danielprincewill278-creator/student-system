@@ -9,5 +9,6 @@ namespace student_system.Models
         }
 
         public DbSet<Students> Students { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using student_system.Dto;
 using student_system.Repositories;
@@ -16,6 +17,7 @@ namespace student_system.Controllers
             _studentRepositoy = studentRepositoy;
         }
 
+        [Authorize]
         [HttpGet("GetAllStudents")]
         public IActionResult GetAllStudents()
         {
@@ -23,6 +25,7 @@ namespace student_system.Controllers
             return Ok(students);
         }
 
+        [Authorize(Roles ="Admin")]
         [HttpPost("AddStudent")]
         public IActionResult AddStudent([FromBody] StudentDto student)
         {
@@ -30,12 +33,15 @@ namespace student_system.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("UpdateStudent")]
         public IActionResult UpdateStudent([FromBody] StudentDtoUpdate student)
         {
             var result = _studentRepositoy.UpdateStudent(student);
             return Ok(result);
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpDelete("DeleteStudent/{studentId}")]
         public IActionResult DeleteStudent(int studentId)
         {
